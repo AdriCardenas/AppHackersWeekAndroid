@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "836215832085",
+    "firebase_url": "https://apphackersweek.firebaseio.com",
+    "project_id": "apphackersweek",
+    "storage_bucket": "apphackersweek.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836215832085:android:91bfb8c9f10df22f",
+        "android_client_info": {
+          "package_name": "hackersweek.a3in.com.apphackersweek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836215832085-isl3365ncbcje489bf64n55ajqbkcmht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeqj29vDZu6lmAgEI9diBOp8J2UC7s6TQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
