@@ -11,18 +11,7 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import static hackersweek.a3in.com.apphackersweek.tenor.utils.Tenor.getAnonId;
 import static hackersweek.a3in.com.apphackersweek.tenor.utils.Tenor.getGifUrl;
@@ -34,7 +23,8 @@ public class AddGifActivity extends AppCompatActivity {
     private String searchTag;
     private TextInputLayout mTextInputLayout;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference ref = database.getReference();
+    private DatabaseReference databaseReference = database.getReference();
+    private String anonId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,22 +43,14 @@ public class AddGifActivity extends AppCompatActivity {
                       @Override
                         public void run(){
                           // check if there is an anonymous ID already stored
-                          SharedPreferences mPrefs = getSharedPreferences("tenor", 0);
-                          String anonId = mPrefs.getString("anonymousId","");
-
-                          if(anonId == "") // first time user, so get an anonymous ID for them and store it for later use
-                          {
-                              anonId = getAnonId();
-                              SharedPreferences.Editor mEditor = mPrefs.edit();
-                              mEditor.putString("anonymousId", anonId).commit();
-                          }
+                          setApiParameter();
 
                           // make initial search request for the first 8 items
-                          JSONObject searchResult = getSearchResults(anonId, mTextInputLayout.getEditText().getText().toString());
+                          JSONObject searchResult = getSearchResults(anonId, searchTag);
 
                           // load the results for the user
                           Log.v("TenorTest", "Search Results: " + searchResult.toString());
-                          ref.push().setValue(new Gif(searchTag, getGifUrl(searchResult)));
+                          databaseReference.push().setValue(new Gif(searchTag, getGifUrl(searchResult)));
 
                           finish();
                       }
@@ -77,6 +59,18 @@ public class AddGifActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setApiParameter(){
+        SharedPreferences mPrefs = getSharedPreferences("tenor", 0);
+        anonId = mPrefs.getString("anonymousId","");
+
+        if(anonId == "") // first time user, so get an anonymous ID for them and store it for later use
+        {
+            anonId = getAnonId();
+            SharedPreferences.Editor mEditor = mPrefs.edit();
+            mEditor.putString("anonymousId", anonId).commit();
+        }
     }
 
     private boolean camposCorrectos() {
